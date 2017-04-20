@@ -1,0 +1,150 @@
+---
+title: "Demo distributions"
+author: "Math 115 instructional"
+date: "2017"
+output: html_document
+---
+
+```{r include=FALSE,echo=FALSE}
+
+require(tigerstats)
+
+```
+<!-- We recommend you use git branches -- create a separate branch for each major section i.e. Introduction, Methods, Results, Inferential Results, and Discussion and Conclusions - leave the YAML block untouched until the final merge where you put in your own name !-->
+
+# Introduction
+
+For every distribution there are four commands. The commands for each distribution are prepended with a letter to indicate the functionality:  
+
+“d”	returns the height of the probability density function  
+“p”	returns the cumulative density function  
+“q”	returns the inverse cumulative density function (quantiles)  
+“r”	returns randomly generated numbers  
+
+###We will look at the normal, chi squared, binomial, and t distributions.
+
+
+# Normal  
+
+###Plot the normal distribution with mean 30 and standard deviation 8 over the interval from 0 to 60.
+
+First create the xaxis to run from 0 to 60
+
+```{r}
+xaxis=seq(from=0,to=60,by=.05)
+```
+Now use dnorm to put in the yaxis values
+
+```{r}
+yaxis=dnorm(xaxis,mean=30,sd=8)
+```
+now plot
+
+```{r}
+plot(xaxis,yaxis,type="l")
+```
+  
+  now draw a vertical red line at 42  
+
+```{r}
+plot(xaxis,yaxis,type="l")
+abline(v=42,col="red")
+```
+
+
+<!--Decide on your methods:  use "variable analysis" or other appropriate descriptors.  Make sure to choose at least one graphical method and at least one numerical method.!-->
+
+#Try now with Chi Squared --- plot a chisq variable with 7 degrees of freedom over the interval from 0 to 60
+
+
+we can use the same xaxis variable  
+
+we will generate our y axis with dchisq
+
+```{r}
+chiyaxis=dchisq(xaxis,df=7)
+```
+```{r}
+plot(xaxis,chiyaxis,type="l")
+
+```
+
+Now suppose we had run a chisq.test on a data-set with 7 degrees of freedom and the value we got for chisq wa 23.
+
+Draw a verticle red line on the distribution function.
+
+```{r}
+plot(xaxis,chiyaxis,type="l")
+abline(v=23,col="red")
+```
+  
+  what is the area to the left and right of the red line?  
+  
+  We calculate with pchisq  
+ 
+```{r}
+(leftarea=pchisq(q=23,df=7))
+(rightarea=pchisq(q=23,df=7,lower.tail = FALSE))
+```
+
+Where should we draw the red line to have 95% on its left and 5% on its right?  
+
+We use qchisq for this  
+
+```{r}
+point5pct=qchisq(p=.95,df=7)
+```
+```{r}
+plot(xaxis,chiyaxis,type="l",main="five percent above red line")
+abline(v=point5pct,col="red")
+```
+
+## Challange --- what is the area to the right of the red line you drew 
+##at 42 in the first plot??
+
+
+
+
+#The Binomial Distribution
+
+This models drawing a sample of a given size from a population where the probability of a single draw success is known.
+
+plot the binomial distribution of drawing 40 things from a population where a single draw success is 1/6.
+
+```{r}
+bxaxis=seq(0:40)
+byaxis=dbinom(bxaxis,size=40,prob=1/6)
+plot(bxaxis,byaxis,type ="l" )
+```
+
+  
+  We know that binomial distributions have a mean of p*n (1/6 * 40)
+  or a bit less than 7 and a standard deviation of sqrt(p*q*n)  
+  about 2.4 --- plot conforms
+  
+  
+  
+
+#Challange  draw a t-distribution with 5 degrees of freedom over the xaxis from -8 to 8.
+
+##Draw a vertical red line at the point where 30 percent of the area is left of your red line.
+
+
+#Emperical Distribution Functions.
+
+##We dont have the d,p,q,r functionality for data we sample or otherwise we collect.
+
+Here I grab a 1000 point sample from a chisq distribution on 30 deg of freedom
+
+```{r}
+mysamp=rchisq(n=1000,df=30)
+mydens=ecdf(mysamp)
+plot(density(mysamp))
+mydens(50)
+#so mydens is acting like pnorm for normal 
+#what acts like qnorm here?
+
+xx=quantile(mysamp,.95)
+abline(v=xx,col="red")
+```
+
