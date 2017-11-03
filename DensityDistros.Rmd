@@ -102,7 +102,7 @@ abline(v=point5pct,col="red")
 ## Challange --- what is the area to the right of the red line you drew 
 ##at 42 in the first plot??
 
-
+This is the 15% of the population that is higher than the mean.
 
 
 #The Binomial Distribution
