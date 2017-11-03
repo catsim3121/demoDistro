@@ -126,8 +126,16 @@ plot(bxaxis,byaxis,type ="l" )
   
 
 #Challange  draw a t-distribution with 5 degrees of freedom over the xaxis from -8 to 8.
+```{r}
+ptGC(c(-8,8),region="between", df=5,graph=TRUE)
+
+```
 
 ##Draw a vertical red line at the point where 30 percent of the area is left of your red line.
+```{r}
+ptGC(c(-8,8),region="between", df=5,graph=TRUE)
+abline(v=-3,col="red")
+```
 
 
 #Emperical Distribution Functions.
